@@ -44,4 +44,27 @@ A simple Go application for playing around with various technologies (listed bel
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/yourusername/book-collection.git
-   cd book-collection
+   cd book-collection ```
+
+2. **Start the services**:
+    ``` cd deploy/docker
+    docker-compose up --build ```
+
+3. **Access the API**:
+    * The Go application should be running on port 8080.
+    * try curl http://localhost:8080/health (or any other implemented endpoint).
+
+### Usage
+
+### Testing
+
+### Kubernetes (Optional)
+
+### CI/CD with GitHub Actions
+
+### Infrastructure as Code (Optional)
+
+### Roadmap
+
+### Contributing
+Pull requests are welcome, as I am new to all of these technologies. For major changes, please open an issue first to discuss what you would like to change.
