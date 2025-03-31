@@ -4,7 +4,9 @@ import (
 	"log"
 	"os"
 
+	"github.com/gin-gonic/gin"
 	"github.com/mckaywilkerson/book-collection/internal/db"
+	"github.com/mckaywilkerson/book-collection/internal/handlers"
 )
 
 func main() {
@@ -17,9 +19,12 @@ func main() {
 	defer pgxPool.Close()
 
 	// setup router
-	//router := gin.Default()
+	router := gin.Default()
 
-	//router.GET("/books", handlers.HandleGetAllBooks(database))
+	router.GET("/books", handlers.HandleGetAllBooks(pgxPool))
+
+	log.Println("Starting server on :8081")
+	router.Run("localhost:8081")
 
 }
 
