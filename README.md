@@ -43,8 +43,7 @@ A simple Go application for playing around with various technologies (listed bel
 
 1. **Clone the repository**:
    ```
-   bash
-   git clone https://github.com/yourusername/book-collection.git
+   git clone https://github.com/mckaywilkerson/book-collection.git
    cd book-collection 
    ```
 
@@ -55,8 +54,8 @@ A simple Go application for playing around with various technologies (listed bel
     ```
 
 3. **Access the API**:
-    * The Go application should be running on port 8080.
-    * try curl http://localhost:8080/health (or any other implemented endpoint).
+    * The Go application should be running on port 8081.
+    * try curl http://localhost:8081/health (or any other implemented endpoint).
 
 ### Usage
 

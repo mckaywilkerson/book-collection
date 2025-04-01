@@ -61,7 +61,7 @@ func GetBook(db *sql.DB, bookID int) (models.Book, error) {
 
 	if err := row.Scan(&book.ID, &book.Title, &book.Author, &book.PublicationYear); err != nil {
 		if err == sql.ErrNoRows {
-			return book, fmt.Errorf("GetBook, no such book", bookID)
+			return book, fmt.Errorf("GetBook ID:%v, no such book", bookID)
 		}
 		return book, err
 	}
