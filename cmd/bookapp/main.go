@@ -12,16 +12,16 @@ import (
 func main() {
 	// connect to DB
 	dsn := getDSN()
-	pgxPool, err := db.ConnectDB(dsn)
+	database, err := db.ConnectDB(dsn)
 	if err != nil {
 		log.Fatalf("Could not connect to DB: %f", err)
 	}
-	defer pgxPool.Close()
+	defer database.Close()
 
 	// setup router
 	router := gin.Default()
 
-	router.GET("/books", handlers.HandleGetAllBooks(pgxPool))
+	router.GET("/books", handlers.HandleGetAllBooks(database))
 
 	log.Println("Starting server on :8081")
 	router.Run("localhost:8081")

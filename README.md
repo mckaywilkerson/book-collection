@@ -42,13 +42,17 @@ A simple Go application for playing around with various technologies (listed bel
 ### Quick Start (Docker Compose)
 
 1. **Clone the repository**:
-   ```bash
+   ```
+   bash
    git clone https://github.com/yourusername/book-collection.git
-   cd book-collection ```
+   cd book-collection 
+   ```
 
 2. **Start the services**:
-    ``` cd deploy/docker
-    docker-compose up --build ```
+    ``` 
+    cd deploy/docker
+    docker-compose up --build 
+    ```
 
 3. **Access the API**:
     * The Go application should be running on port 8080.
