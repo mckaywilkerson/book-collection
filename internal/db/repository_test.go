@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"path/filepath"
+	"runtime"
 	"testing"
 	"time"
 
@@ -25,6 +27,14 @@ func TestMain(m *testing.M) {
 		log.Fatalf("Could not connect to docker: %s", err)
 	}
 
+	_, thisFile, _, _ := runtime.Caller(0)
+	base := filepath.Dir(thisFile)
+	relPath := "../../deploy/docker/init.sql"
+	absPath, err := filepath.Abs(filepath.Join(base, relPath))
+	if err != nil {
+		log.Panicf("Absolute path is wrong: %s", err)
+	}
+
 	resource, err := pool.RunWithOptions(&dockertest.RunOptions{
 		Repository: "postgres",
 		Tag:        "latest",
@@ -32,7 +42,11 @@ func TestMain(m *testing.M) {
 			"POSTGRES_PASSWORD=secret",
 			"POSTGRES_USER=user_name",
 			"POSTGRES_DB=books",
-			"listen_addresses='*'",
+			"listen_addresses = '*'",
+		},
+		// Mount init.sql file into /docker-entrypoint-initdb.d
+		Mounts: []string{
+			fmt.Sprintf("%s:/docker-entrypoint-initdb.d/init.sql", absPath),
 		},
 	}, func(config *docker.HostConfig) {
 		config.AutoRemove = true
@@ -52,7 +66,7 @@ func TestMain(m *testing.M) {
 	// exponential backoff-retry, because the application in the container might not be ready to accept connections yet
 	pool.MaxWait = 120 * time.Second
 	err = pool.Retry(func() error {
-		db, err := sql.Open("pgx", databaseURL)
+		db, err = sql.Open("pgx", databaseURL)
 		if err != nil {
 			return err
 		}
@@ -70,4 +84,16 @@ func TestMain(m *testing.M) {
 	}()
 
 	m.Run()
+}
+
+func TestGetAllBooks(t *testing.T) {
+	myBooks, err := GetAllBooks(db)
+
+	if err != nil {
+		t.Error("ran into error with GetAllBooks:", err)
+	}
+
+	if len(myBooks) != 0 {
+		t.Error("Expected empty slice, got", myBooks)
+	}
 }
