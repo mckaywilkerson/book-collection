@@ -92,15 +92,11 @@ func DeleteBook(db *sql.DB, bookID int) error {
 }
 
 // AddBook - add a new book to the database
-func AddBook(db *sql.DB, bookInfo models.Book) (int64, error) {
-	statement := "INSERT INTO books (title, author, publication_year) VALUES ($1, $2, $3)"
+func AddBook(db *sql.DB, bookInfo models.Book) (int, error) {
+	statement := "INSERT INTO books (title, author, publication_year) VALUES ($1, $2, $3) RETURNING id"
 
-	result, err := db.Exec(statement, bookInfo.Title, bookInfo.Author, bookInfo.PublicationYear)
-	if err != nil {
-		return 0, err
-	}
-
-	id, err := result.LastInsertId()
+	var id int
+	err := db.QueryRow(statement, bookInfo.Title, bookInfo.Author, bookInfo.PublicationYear).Scan(&id)
 	if err != nil {
 		return 0, err
 	}
