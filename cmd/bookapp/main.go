@@ -22,6 +22,10 @@ func main() {
 	router := gin.Default()
 
 	router.GET("/books", handlers.HandleGetAllBooks(database))
+	router.GET("/books/:id", handlers.HandleGetBook(database))
+	router.PUT("/books/:id", handlers.HandleUpdateBook(database))
+	router.POST("/books/new", handlers.HandleAddBook(database))
+	router.DELETE("/books/:id", handlers.HandleDeleteBook(database))
 
 	log.Println("Starting server on :8081")
 	router.Run("localhost:8081")
