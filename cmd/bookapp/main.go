@@ -28,7 +28,7 @@ func main() {
 	router.DELETE("/books/:id", handlers.HandleDeleteBook(database))
 
 	log.Println("Starting server on :8081")
-	router.Run("localhost:8081")
+	router.Run(":8081")
 
 }
 
